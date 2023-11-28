@@ -23,8 +23,17 @@ cd grading-area
 javac -cp $CPATH *.java
 java -cp $CPATH org.junit.runner.JUnitCore TestListExamples > test.txt
 
-grep "test" test.txt
-grep -Eo '[0-9]{1,4}' test.txt
+grep "Failure" test.txt > FailNumber.txt
+wc -l FailNumber.txt > WCfailNumber.txt
+    if [[ `grep -Eo '[0-9]{1,4}' WCfailNumber.txt` == 1 ]]
+    then 
+        grep -Eo '[0-9]{1,4}' FailNumber.txt > grepFails.txt
+        TOTAL=`sed -n '1p' grepFails.txt`
+        ERRORS=`sed -n '2p' grepFails.txt`
+        echo You got $ERRORS/$TOTAL wrong
+    else echo 'Grade: 100%, Good Job!!!' 
+    fi
+
 
 
 # Draw a picture/take notes on the directory structure that's set up after
