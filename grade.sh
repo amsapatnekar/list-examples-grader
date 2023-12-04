@@ -30,7 +30,10 @@ wc -l FailNumber.txt > WCfailNumber.txt
         grep -Eo '[0-9]{1,4}' FailNumber.txt > grepFails.txt
         TOTAL=`sed -n '1p' grepFails.txt`
         ERRORS=`sed -n '2p' grepFails.txt`
-        echo You got $ERRORS/$TOTAL wrong
+        NUM_WRONG=$(expr $ERRORS - $TOTAL)
+        SCORE=$(expr $NUM_WRONG / $TOTAL)
+        PERCENTAGE=$(expr $SCORE \* 100)
+        echo You got a $PERCENTAGE%. 
     else echo 'Grade: 100%, Good Job!!!' 
     fi
 
